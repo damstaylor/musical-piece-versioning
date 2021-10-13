@@ -9,7 +9,7 @@ export default class MusicalPieceVersioning {
     constructor(value = []) {
         const newValue = Array.isArray(value) && value.length > MAX_NB_VERSIONS ? value.slice(0, MAX_NB_VERSIONS) : value.slice();
         this._history = newValue;
-        this._currentVersion = this._history.length > 0 ? this._history[0] : new MusicalPiece();
+        this._currentVersion = this._history.length > 0 ? this._history[0] : null;
     }
 
     get history(): MusicalPiece[] {
@@ -48,9 +48,16 @@ export default class MusicalPieceVersioning {
         return this._currentVersion;
     }
 
+    getCurrentVersionNb() {
+        if (!this.currentVersion) {
+            return -1;
+        }
+        return this._history.length > 0 && this._history.includes(this.currentVersion) ? this._history.indexOf(this.currentVersion) + 1 : -1;
+    }
+
     print() {
         if (this.currentVersion) {
-            console.log(this.currentVersion.getMainInfo());
+            console.log(`[Version ${this.getCurrentVersionNb()} / ${MAX_NB_VERSIONS}] ${this.currentVersion.getMainInfo()}`);
         }
     }
 }
