@@ -8,8 +8,8 @@ export default class MusicalPiece {
     private _extension: string | null;
     private _genre: string | null;
     private _modificationDate: Date | null;
-    private _releaseDate: string | null;
-    private _samplingRate: string | null;
+    private _releaseDate: Date | null;
+    private _samplingRate: number | null;
     private _title: string | null;
     private _trackNumber: number | null;
 
@@ -59,10 +59,10 @@ export default class MusicalPiece {
     get modificationDate(): Date | null {
         return this._modificationDate;
     }
-    get releaseDate(): string | null {
+    get releaseDate(): Date | null {
         return this._releaseDate;
     }
-    get samplingRate(): string | null {
+    get samplingRate(): number | null {
         return this._samplingRate;
     }
     get title(): string | null {
@@ -99,10 +99,10 @@ export default class MusicalPiece {
     set modificationDate(value: Date | null) {
         this._modificationDate = value;
     }
-    set releaseDate(value: string | null) {
+    set releaseDate(value: Date | null) {
         this._releaseDate = value;
     }
-    set samplingRate(value: string | null) {
+    set samplingRate(value: number | null) {
         this._samplingRate = value;
     }
     set title(value: string | null) {
