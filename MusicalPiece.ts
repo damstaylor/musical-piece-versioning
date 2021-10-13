@@ -117,7 +117,7 @@ export default class MusicalPiece {
         return new MusicalPiece(copiedLiteral);
     }
 
-    printMainInfo() {
-        console.log(`${this.artist || '<Unknown artist>'} - ${this.title || '<Unknown title>'} - ${this.album || '<Unknown album>'} (${this.releaseDate ? this.releaseDate.getFullYear() : '<Unknown year>'})`);
+    getMainInfo() {
+        return `${this.artist || '<Unknown artist>'} - ${this.title || '<Unknown title>'} - ${this.album || '<Unknown album>'} (${this.releaseDate ? this.releaseDate.getFullYear() : '<Unknown year>'})`;
     }
 }

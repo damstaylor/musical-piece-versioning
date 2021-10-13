@@ -1,6 +1,12 @@
-import MusicalPiece from './MusicalPiece';
+import MusicalPieceVersioning from './MusicalPieceVersioning';
 
-let mp = new MusicalPiece({ title: 'All my life', artist: 'Foo Fighters', album: 'One by One', releaseDate: new Date('2002-09-24') });
-mp.printMainInfo();
-mp.title = 'Times Like These';
-mp.printMainInfo();
+const v = new MusicalPieceVersioning();
+v.save({ title: 'My Hero', artist: 'Foo Fighters' }); // 0
+v.print();
+v.save({ title: 'Monkey Wrench' }); // 1
+v.print();
+v.save({ album: 'The Colour and the Shape', releaseDate: new Date('1997-05-20') }); // 2
+v.print();
+
+v.restore(1);
+v.print();
