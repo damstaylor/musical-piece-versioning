@@ -35,6 +35,7 @@ export default class MusicalPieceVersioning {
         } else {
             newVersion = this.mostRecentVersion.clone(params);
         }
+        newVersion.modificationDate = new Date(); /* Update modification date on save */
         this._history.push(newVersion);
         this._currentVersion = this.mostRecentVersion;
     }

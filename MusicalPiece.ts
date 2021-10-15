@@ -84,8 +84,15 @@ export default class MusicalPiece {
     set bpm(value: number | null) {
         this._bpm = value;
     }
-    set creationDate(value: Date | null) {
-        this._creationDate = value;
+    set creationDate(value: Date | string | null) {
+        if (typeof value === 'string') {
+            if (isNaN(Date.parse(value))) {
+                throw new Error('Error: date string value has wrong format.');
+            }
+            this._creationDate = new Date(value);
+        } else {
+            this._creationDate = value;
+        }
     }
     set duration(value: number | null) {
         this._duration = value;
@@ -96,11 +103,25 @@ export default class MusicalPiece {
     set genre(value: string | null) {
         this._genre = value;
     }
-    set modificationDate(value: Date | null) {
-        this._modificationDate = value;
+    set modificationDate(value: Date | string | null) {
+        if (typeof value === 'string') {
+            if (isNaN(Date.parse(value))) {
+                throw new Error('Error: date string value has wrong format.');
+            }
+            this._modificationDate = new Date(value);
+        } else {
+            this._modificationDate = value;
+        }
     }
-    set releaseDate(value: Date | null) {
-        this._releaseDate = value;
+    set releaseDate(value: Date | string | null) {
+        if (typeof value === 'string') {
+            if (isNaN(Date.parse(value))) {
+                throw new Error('Error: date string value has wrong format.');
+            }
+            this._releaseDate = new Date(value);
+        } else {
+            this._releaseDate = value;
+        }
     }
     set samplingRate(value: number | null) {
         this._samplingRate = value;
