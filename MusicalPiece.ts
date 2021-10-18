@@ -133,12 +133,12 @@ export default class MusicalPiece {
         this._trackNumber = value;
     }
 
-    clone(params = {}) {
+    clone(params = {}): MusicalPiece {
         const copiedLiteral = params ? { ...this, ...params } : { ...this };
         return new MusicalPiece(copiedLiteral);
     }
 
-    getMainInfo() {
+    getMainInfo(): string {
         return `${this.artist || '<Unknown artist>'} - ${this.title || '<Unknown title>'} - ${this.album || '<Unknown album>'} (${this.releaseDate ? this.releaseDate.getFullYear() : '<Unknown year>'})`;
     }
 }

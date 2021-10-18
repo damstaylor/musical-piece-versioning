@@ -20,45 +20,62 @@ export default class MusicalPieceVersioning {
         return this._currentVersion;
     }
 
+    get currentVersionNb(): number {
+        if (!this.currentVersion) {
+            return -1;
+        }
+        return this._history.indexOf(this.currentVersion) + 1;
+    }
+
     get mostRecentVersion(): MusicalPiece | null {
         return this._history.length > 0 ? this._history[this._history.length - 1] : null;
     }
 
-    save(params: object = {}) {
+    save(params: object = {}): MusicalPiece | null {
         if (this._history.length === MAX_NB_VERSIONS) {
             console.error('History is full!');
-            return;
-        }
-        let newVersion: MusicalPiece;
-        if (this.mostRecentVersion === null) {
-            newVersion = new MusicalPiece(params);
         } else {
-            newVersion = this.mostRecentVersion.clone(params);
+            let newVersion: MusicalPiece;
+            if (this.mostRecentVersion === null) {
+                newVersion = new MusicalPiece(params);
+            } else {
+                newVersion = this.mostRecentVersion.clone(params);
+            }
+            newVersion.modificationDate = new Date(); /* Update modification date on save */
+            this._history.push(newVersion);
+            this._currentVersion = this.mostRecentVersion;
         }
-        newVersion.modificationDate = new Date(); /* Update modification date on save */
-        this._history.push(newVersion);
-        this._currentVersion = this.mostRecentVersion;
+        return this._currentVersion;
     }
 
-    restore(value: number) {
+    restore(value: number): MusicalPiece | null {
         if (value < 0 || value >= MAX_NB_VERSIONS) {
-            console.error('Wrong number format: please give a positive version number lower than ' + MAX_NB_VERSIONS);
-            return;
+            throw new Error('Wrong number format: please give a positive version number lower than ' + MAX_NB_VERSIONS);
         }
         this._currentVersion = this._history[value];
         return this._currentVersion;
     }
 
-    getCurrentVersionNb() {
-        if (!this.currentVersion) {
-            return -1;
+    delete(value: number): MusicalPiece {
+        if (value < 0 || value >= MAX_NB_VERSIONS) {
+            throw new Error('Wrong number format: please give a positive version number lower than ' + MAX_NB_VERSIONS);
         }
-        return this._history.length > 0 && this._history.includes(this.currentVersion) ? this._history.indexOf(this.currentVersion) + 1 : -1;
+        const deleted = this._history.splice(value, 1);
+        if (this.currentVersionNb === value) {
+            this._currentVersion = this.mostRecentVersion;
+        }
+        return deleted[0];
     }
 
-    print() {
+    print(): void {
         if (this.currentVersion) {
-            console.log(`[Version ${this.getCurrentVersionNb()} / ${MAX_NB_VERSIONS}] ${this.currentVersion.getMainInfo()}`);
+            let str = `[Version ${this.currentVersionNb}/${this._history.length}] ${this.currentVersion.getMainInfo()}`;
+            if (this._history.length === MAX_NB_VERSIONS) {
+                str += '\n- Warning: history is now full.'
+            }
+            console.log(str);
+        } else {
+            console.log('Versioning history is empty.');
         }
     }
 }
